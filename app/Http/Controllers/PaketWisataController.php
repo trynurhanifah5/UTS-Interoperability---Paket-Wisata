@@ -11,19 +11,14 @@ class PaketWisataController extends Controller
     {
         $query = PaketWisata::with('destinasi');
 
-        if ($request->filled('destinasi_id')) {
-            $query->where('destinasi_id', $request->query('destinasi_id'));
+        $destinasiId = $request->query('destinasi_id');
+        if ($destinasiId !== null && $destinasiId !== '') {
+            $query->where('destinasi_id', $destinasiId);
         }
 
         $data = $query->get();
 
-        return response()->json([
-            'count'   => $data->count(),
-            'params'  => $request->query(),
-            'sql'     => $query->toSql(),
-            'bindings'=> $query->getBindings(),
-            'data'    => $data,
-        ], 200);
+        return $this->dynamicResponse($request, $data, 200);
     }
 
     public function show(Request $request, $paketId)

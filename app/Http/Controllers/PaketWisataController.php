@@ -16,7 +16,14 @@ class PaketWisataController extends Controller
         }
 
         $data = $query->get();
-        return $this->dynamicResponse($request, $data, 200);
+
+        return response()->json([
+            'count'   => $data->count(),
+            'params'  => $request->query(),
+            'sql'     => $query->toSql(),
+            'bindings'=> $query->getBindings(),
+            'data'    => $data,
+        ], 200);
     }
 
     public function show(Request $request, $paketId)

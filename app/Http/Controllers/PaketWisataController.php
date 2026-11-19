@@ -11,8 +11,7 @@ class PaketWisataController extends Controller
     {
         $query = PaketWisata::with('destinasi');
 
-        // Filter berdasarkan destinasi_id jika parameter dikirim (Contoh: /paket-wisata?destinasi_id=1)
-        if ($request->has('destinasi_id')) {
+        if ($request->filled('destinasi_id')) {
             $query->where('destinasi_id', $request->query('destinasi_id'));
         }
 
